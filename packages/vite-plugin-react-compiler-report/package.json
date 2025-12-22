@@ -1,0 +1,31 @@
+{
+  "name": "vite-plugin-react-compiler-report",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "5.9.2",
+    "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "vite": "^7.0.0"
+  }
+}
