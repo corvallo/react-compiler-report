@@ -13,13 +13,31 @@
       "require": "./dist/index.cjs"
     }
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup"
+    "build": "node scripts/copy-readme.mjs && tsup"
   },
-  "keywords": [],
+  "keywords": [
+    "vite",
+    "react",
+    "compiler",
+    "report",
+    "plugin"
+  ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corvallo/react-compiler-report.git"
+  },
+  "bugs": {
+    "url": "https://github.com/corvallo/react-compiler-report/issues"
+  },
+  "homepage": "https://github.com/corvallo/react-compiler-report#readme",
   "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "5.9.2",
