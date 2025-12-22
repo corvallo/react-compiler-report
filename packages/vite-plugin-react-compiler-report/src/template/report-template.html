@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React Compiler Report</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --border: #334155;
+        --text: #f8fafc;
+        --text-dim: #94a3b8;
+        --primary: #3b82f6;
+        --success: #22c55e;
+        --error: #ef4444;
+        --warning: #eab308;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      header {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+
+      .meta {
+        color: var(--text-dim);
+        font-size: 14px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .text-success { color: var(--success); }
+      .text-error { color: var(--error); }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        margin-top: 40px;
+        color: var(--text);
+      }
+
+      .file-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .file-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .file-header {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .status-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .status-error {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--error);
+      }
+
+      .filename {
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      .issues {
+        padding: 16px;
+      }
+
+      .issue {
+        margin-bottom: 16px;
+      }
+      .issue:last-child { margin-bottom: 0; }
+
+      .issue-title {
+        color: var(--warning);
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .issue-loc {
+        color: var(--text-dim);
+        font-size: 12px;
+        font-family: monospace;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .issue-desc {
+        color: var(--text-dim);
+        font-size: 14px;
+        margin-left: 0;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-dim);
+        background: var(--surface);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <h1>React Compiler Report</h1>
+          <div class="meta" id="generated-at"></div>
+        </div>
+      </header>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Components Optimized</div>
+          <div class="stat-value text-success" id="stat-ok">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Compilation Failures</div>
+          <div class="stat-value text-error" id="stat-failed">0</div>
+        </div>
+      </div>
+
+      <div id="failures-section">
+        <div class="section-title">Failures</div>
+        <div class="file-list" id="failures-list"></div>
+      </div>
+
+      <div id="success-section" style="margin-top: 40px; opacity: 0.5;">
+         <div class="section-title">Optimized Files</div>
+         <div class="file-list" id="success-list"></div>
+      </div>
+
+    </div>
+
+    <script id="__RC_DATA__" type="application/json">
+      __REACT_COMPILER_REPORT_DATA__
+    </script>
+    <script>
+      const data = JSON.parse(document.getElementById("__RC_DATA__").textContent);
+
+      // Header
+      document.getElementById("generated-at").textContent = new Date(data.generatedAt).toLocaleString();
+
+      // Stats
+      document.getElementById("stat-ok").textContent = data.totals.ok;
+      document.getElementById("stat-failed").textContent = data.totals.failed;
+
+      // Failures
+      const failuresContainer = document.getElementById("failures-list");
+      if (data.failed.length === 0) {
+        failuresContainer.innerHTML = '<div class="empty-state">No failures found! Great job.</div>';
+      } else {
+        data.failed.forEach(file => {
+          const card = document.createElement("div");
+          card.className = "file-card";
+          
+          let issuesHtml = "";
+    
+          
+            const loc = file.loc ? `<span class="issue-loc">${file.loc}</span>` : "";
+            
+            issuesHtml += `
+              <div class="issue">
+                 <div class="issue-title">
+                    ${file.category || "Error"}
+                    ${loc}
+                 </div>
+                 <div class="issue-desc">${file.reason}</div>
+                 ${file.description ? `<div class="issue-desc" style="margin-top:4px">${file.description}</div>` : ""}
+                 ${file.suggestions.length ? `<div class="issue-desc" style="margin-top:8px">Tip: ${file.suggestions[0]}</div>` : ""}
+              </div>
+            `;
+
+          card.innerHTML = `
+            <div class="file-header">
+               <div class="status-icon status-error">✕</div>
+               <div class="filename">${file.filename}</div>
+            </div>
+            <div class="issues">
+              ${issuesHtml}
+            </div>
+          `;
+          failuresContainer.appendChild(card);
+        });
+      }
+      
+      // Success list (simple)
+      const successContainer = document.getElementById("success-list");
+      if(data.success && data.success.length > 0) {
+          const list = document.createElement("div");
+          list.style.cssText = "display: flex; gap: 8px; flex-wrap: wrap;";
+          data.success.forEach(f => {
+              const chip = document.createElement("span");
+              chip.textContent = f.filename;
+              chip.style.cssText = "background: var(--surface); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-family: monospace;";
+              list.appendChild(chip);
+          });
+          successContainer.appendChild(list);
+      } else {
+         document.getElementById("success-section").style.display = "none";
+      }
+
+    </script>
+  </body>
+</html>

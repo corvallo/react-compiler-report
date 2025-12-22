@@ -1,0 +1,49 @@
+{
+  "name": "vite-plugin-react-compiler-report",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "node scripts/copy-readme.mjs && tsup"
+  },
+  "keywords": [
+    "vite",
+    "react",
+    "compiler",
+    "report",
+    "plugin"
+  ],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corvallo/react-compiler-report.git"
+  },
+  "bugs": {
+    "url": "https://github.com/corvallo/react-compiler-report/issues"
+  },
+  "homepage": "https://github.com/corvallo/react-compiler-report#readme",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "5.9.2",
+    "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "vite": "^7.0.0"
+  }
+}
