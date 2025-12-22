@@ -5,7 +5,7 @@ import { onCompilerEvent, clearCompilerEventListeners } from "./events";
 import { createDevReporter } from "../dev/reporter";
 import { buildReportData } from "../report/serialize";
 import { resolveOutputDir } from "../paths/output";
-import { writeJsonReport } from "../build/writer";
+import { writeJsonReport } from "../builder/writer";
 import { generateReportUI } from "./generator"; 
 import { color as c } from "../utils/colors";
 
