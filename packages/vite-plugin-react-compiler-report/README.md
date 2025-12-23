@@ -1,5 +1,7 @@
 # vite-plugin-react-compiler-report
-
+[![npm version](https://img.shields.io/npm/v/vite-plugin-react-compiler-report)](https://www.npmjs.com/package/vite-plugin-react-compiler-report)
+[![npm downloads](https://img.shields.io/npm/dm/vite-plugin-react-compiler-report)](https://www.npmjs.com/package/vite-plugin-react-compiler-report)
+[![CI](https://img.shields.io/github/actions/workflow/status/corvallo/react-compiler-report/publish.yml)](https://github.com/corvallo/react-compiler-report/actions)
 A Vite plugin that generates detailed reports for the React Compiler. It provides terminal logging during development and builds, and optionally generates a visual HTML report.
 
 ## Features
